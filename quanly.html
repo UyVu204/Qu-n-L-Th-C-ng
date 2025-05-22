@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Hệ Thống Quản Lý Thú Cưng</title>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>🐾 Hệ Thống Quản Lý Thú Cưng</h1>
+
+    <div style="text-align:center;" id="roleSection">
+      <label for="role">Chọn vai trò  </label>
+      <select id="role" onchange="renderButtons()">
+        <option value="tuychon">Tuỳ Chọn</option>
+        <option value="admin">Quản trị viên</option>
+        <option value="staff">Nhân viên</option>
+        <option value="customer">Khách hàng</option>
+
+      </select>
+    </div>
+
+    <div style="text-align: center;">
+      <button id="signOutBtn" onclick="signOut()" title="Đăng xuất">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <path d="M16 17L21 12L16 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M21 12H9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12 19V17C12 15.8954 11.1046 15 10 15H5C3.89543 15 3 15.8954 3 17V19C3 20.1046 3.89543 21 5 21H10C11.1046 21 12 20.1046 12 19Z" stroke="#fff" stroke-width="2"/>
+  </svg>
+</button>
+    </div>
+
+    
+    <div class="cart-box" onclick="toggleCart()">
+      <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Giỏ hàng">
+      <span class="cart-count" id="cartCount">0</span>
+    </div>
+
+    <div class="cart-popup" id="cartPopup">
+      <h3>🛒 Giỏ hàng</h3>
+      <ul id="cartItems"></ul>
+      <button onclick="checkout()">Thanh toán</button>
+    </div>
+
+    <div class="functions" id="buttons"></div>
+
+    <div class="content" id="contentArea">
+      
+      <div id="content-quanlythucung" class="content-box">
+        <h2>Quản lý thú cưng</h2>
+        <table>
+          <tr><th>Tên Thú Cưng</th><th>Loài</th><th>Chủ Sở Hữu</th></tr>
+          <tr><td>Tom</td><td>Mèo</td><td>Lê Anh Nuôi</td></tr>
+          <tr><td>Ben</td><td>Chó</td><td>Lê Thị Bồng</td></tr>
+          <tr><td>ViruSs</td><td>Chó</td><td>Nguyễn Văn lậu</td></tr>
+          <tr><td>Mèo catel</td><td>Mèo</td><td>Lê Tuyết Như</td></tr>
+          <tr><td>Chó Bigbull</td><td>Chó</td><td>Bùi Ba Năm</td></tr>
+          <tr><td>Mèo Rừng Châu Phi</td><td>Mèo</td><td>Lê Anh Nuôi</td></tr>
+          <tr><td>Báo Đốm Châu Phi</td><td>Mèo Size L</td><td>Nguyễn Philip</td></tr>
+        </table>
+      </div>
+
+      <div id="content-quanlychusohuu" class="content-box">
+        <h2>Quản lý chủ sở hữu</h2>
+        <table>
+          <tr><th>Họ tên</th><th>Số điện thoại</th></tr>
+          <tr>
+            <td>Nguyễn Văn lậu</td>
+            <td>0123456789</td>
+          </tr>
+          <tr>
+            <td>Lê Thị Bồng</td>
+            <td>0987654321</td>
+          </tr>
+          <tr>
+            <td>Lê Tuyết Như</td>
+            <td>0987654321</td>
+          </tr>
+          <tr>
+            <td>Bùi Ba Năm</td>
+            <td>0934232413</td>
+          </tr>
+          <tr>
+            <td>Lê Anh Nuôi</td>
+            <td>0314153453</td>
+          </tr>
+          <tr>
+            <td>Lê Như Ngọc</td>
+            <td>0365572342</td>
+          </tr>
+          <tr>
+            <td>Nguyễn Philip</td>
+            <td>0983453213</td>
+          </tr>
+
+        </table>
+      </div>
+
+      <div id="content-quanlydichvu" class="content-box">
+        <h2>Quản lý dịch vụ</h2>
+        <table>
+          <tr><th>Dịch vụ</th><th>Giá</th></tr>
+          <tr><td>Tắm gội</td><td>150.000đ <button onclick="addToCart('Tắm gội')">+</button></td></tr>
+          <tr><td>Tiêm Phòng</td><td>1.550.000đ <button onclick="addToCart('Tiêm Phòng')">+</button></td></tr>
+          <tr><td>Khám sức khỏe</td><td>300.000đ <button onclick="addToCart('Khám sức khỏe')">+</button></td></tr>
+          <tr><td>Massage</td><td>3.000.000đ <button onclick="addToCart('Massage')">+</button></td></tr>
+          <tr><td>Cắt Lông</td><td>300.000đ <button onclick="addToCart('Cắt Lông')">+</button></td></tr>
+          <tr><td>Dịch vụ sinh sản </td><td>800.000đ <button onclick="addToCart('Dịch vụ sinh sản ')">+</button></td></tr>
+          <tr><td>Chọn Gói Huấn luyện dog </td><td>8.800.000đ <button onclick="addToCart('Chọn Gói Huấn luyện dog')">+</button></td></tr>
+          <tr><td>dọ mõm</td><td>30.000đ <button onclick="addToCart('dọ mõm')">+</button></td></tr>
+          <tr><td>Thức ăn cho thú cưng</td><td>300.000đ <button onclick="addToCart('Thức ăn cho thú cưng')">+</button></td></tr>
+          <tr><td>Xích</td><td>80.000đ <button onclick="addToCart('Xích')">+</button></td></tr>
+          <tr><td>Chăm nuôi 1 tháng</td><td>4.000.000đ <button onclick="addToCart('Chăm nuôi 1 tháng')">+</button></td></tr>
+          <tr><td>Đồ Ăn Bịch 20kg</td><td>1.000.000đ <button onclick="addToCart('Thú cưng')">+</button></td></tr> 
+        </table>
+      </div>
+
+      <div id="content-thongke" class="content-box">
+        <h2>Thống kê</h2>
+        <div class="stats-cards">
+          <div class="stat-card">
+            <div class="stat-icon">🐶</div>
+            <div>
+              <div class="stat-number">50</div>
+              <div class="stat-label">Tổng số thú cưng</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👤</div>
+            <div>
+              <div class="stat-number">30</div>
+              <div class="stat-label">Chủ sở hữu</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">💰</div>
+            <div>
+              <div class="stat-number">120</div>
+              <div class="stat-label">Đơn hàng tháng này</div>
+            </div>
+          </div>
+          <div class="stat-card">
+    <div class="stat-icon">⭐</div>
+    <div>
+      <div class="stat-number">4.5/5</div>
+      <div class="stat-label">Đánh giá trung bình</div>
+    </div>
+  </div>
+        </div>
+        <p>Dịch vụ sử dụng nhiều nhất: <strong>Tắm gội</strong></p>
+        <p>Dịch vụ ít sử dụng: <strong>Xích</strong></p>
+      </div>
+
+      <div id="content-timkiem" class="content-box">
+        <h2>Tìm kiếm thông tin</h2>
+        <input type="text" placeholder="Nhập từ khóa..." style="padding: 8px; width: 60%;">
+        <button>Tìm kiếm</button>
+      </div>
+
+      <div id="content-quanlytaikhoan" class="content-box">
+        <h2>Quản lý tài khoản nhân viên</h2>
+        <table>
+          <tr><th>Tên nhân viên</th><th>Vai trò</th></tr> 
+          <tr><td>Nguyễn Văn Lộc</td><td>Nhân viên</td></tr>
+          <tr><td>Hoàng Cửu Nhân</td><td>Nhân viên</td></tr>
+          <tr><td>ViruSs Hoàng </td><td>Quản lý</td></tr>
+          <tr><td>Vũ j97</td><td>Quản lý</td></tr>
+        </table>
+      </div>
+
+      <div id="content-feedbackSection" class="content-box">
+        <h2>Phản hồi dịch vụ</h2>
+        <div>
+          <label for="serviceSelect">Chọn dịch vụ:</label>
+          <select id="serviceSelect">
+            <option value="">--Chọn dịch vụ--</option>
+            <option value="Tắm gội">Tắm gội</option>
+            <option value="Tiêm Phòng">Tiêm Phòng</option>
+            <option value="Khám sức khỏe">Khám sức khỏe</option>
+            <option value="Massage">Massage</option>
+            <option value="Cắt Lông">Cắt Lông</option>
+            <option value="Dịch vụ sinh sản ">Dịch vụ sinh sản </option>
+            <option value="Chọn Gói Huấn luyện dog">Chọn Gói Huấn luyện dog</option>
+            <option value="dọ mõm">dọ mõm</option>
+            <option value="Thức ăn cho thú cưng">Thức ăn cho thú cưng</option>
+            <option value="Xích">Xích</option>
+            <option value="Chăm nuôi 1 tháng">Chăm nuôi 1 tháng</option>
+            <option value="Thú cưng">Thú cưng</option>
+          </select>
+        </div>
+        <div id="starRating" style="cursor:pointer;margin:10px 0;">
+          <span onclick="setRating(1)">☆</span>
+          <span onclick="setRating(2)">☆</span>
+          <span onclick="setRating(3)">☆</span>
+          <span onclick="setRating(4)">☆</span>
+          <span onclick="setRating(5)">☆</span>
+        </div>
+        <div>
+          <textarea id="feedbackText" placeholder="Nhập phản hồi của bạn ở đây..." rows="4" style="width:100%;padding:10px;"></textarea>
+        </div>
+        <button onclick="submitFeedback()" style="margin-top:10px;">Gửi phản hồi</button>
+        <div id="feedbackList" style="margin-top:20px;"></div>
+      </div>
+
+      <div id="content-profile" class="content-box">
+  <h2>Thông tin cá nhân</h2>
+  <div style="text-align:center;">
+    <img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="avatar" style="width:80px;border-radius:50%;margin-bottom:12px;">
+    <p><b>Tên khách hàng:</b> Lê Như ngọc</p>
+    <p><b>Số điện thoại:</b> 0333146789</p>
+    <p><b>Địa chỉ:</b> 12 Bàn Cờ, Quận 3, TP.HCM</p>
+    <p><b>Email: Lenhungoc04@gmail.com</b>
+    <p><b>Ngày sinh:</b> 29/05/2004</p>
+    <p><b>Giới tính:</b> Nữ</p>
+    <p><b>Thú cưng đang sở hữu:</b> Single (Mèo), reletionship (Chó)</p>
+    <button style="margin-top:10px;">Cập nhật thông tin</button>
+  </div>
+</div>
+
+<div id="content-history" class="content-box">
+  <h2>Lịch sử đặt dịch vụ</h2>
+  <table>
+    <tr><th>Dịch vụ</th><th>Ngày đặt</th><th>Trạng thái</th></tr>
+    <tr><td>Tắm gội</td><td>20/05/2025</td><td>Đã hoàn thành</td></tr>
+    <tr><td>Tiêm Phòng</td><td>15/05/2025</td><td>Đã hoàn thành</td></tr>
+    <tr><td>Chăm nuôi 1 tháng</td><td>01/05/2025</td><td>Đang sử dụng</td></tr>
+  </table>
+</div>
+    </div>
+  </div>
+
+  <div class="contact-box">
+    <a href="https://www.facebook.com/Uy.VuOne/" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+    </a>
+    <a href="https://www.instagram.com/_ducuy/" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram">
+    </a>
+    <a href="https://x.com/home" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="X">
+    </a>
+    <span>📞 0123456123</span>
+  </div>
+
+  
+<div id="paymentModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:2000; align-items:center; justify-content:center;">
+  <div>
+    <h3>Chọn phương thức thanh toán</h3>
+    <div id="paymentMethods">
+      <button class="pay-btn momo" onclick="showQR('momo')">Momo</button>
+      <button class="pay-btn zalopay" onclick="showQR('zalopay')">ZaloPay</button>
+      <button class="pay-btn bank" onclick="showQR('bank')">Chuyển khoản</button>
+      <button class="pay-btn cash" onclick="confirmPayment('Tiền mặt')">Tiền mặt</button>
+    </div>
+    <div id="qrSection" style="display:none; margin-top:20px;">
+      <img id="qrImg" src="" alt="QR code" style="width:180px; height:180px; border-radius:12px; box-shadow:0 0 8px #aaa;">
+      <p id="qrNote" style="margin:10px 0 0; font-weight:bold;"></p>
+      <button class="pay-btn confirm" onclick="confirmPayment(currentMethod)">Xác nhận đã thanh toán</button>
+      <button class="pay-btn back" onclick="backToMethods()">Quay lại</button>
+    </div>
+    <button class="pay-btn cancel" onclick="closePaymentModal()" style="margin-top:15px;">Hủy</button>
+  </div>
+</div>
+
+  <script>
+   const tuychonButtons = [
+  { id: 'gopy', label: 'Góp ý hệ thống' },
+  { id: 'lienhe', label: 'Liên hệ hỗ trợ' }
+];
+    const adminButtons = [
+  { id: 'quanlythucung', label: 'Quản lý thú cưng' },
+  { id: 'quanlychusohuu', label: 'Quản lý chủ sở hữu' },
+  { id: 'quanlydichvu', label: 'Quản lý dịch vụ' },
+  { id: 'thongke', label: 'Thống kê' },
+  { id: 'timkiem', label: 'Tìm kiếm thông tin' },
+  { id: 'quanlytaikhoan', label: 'Quản lý tài khoản nhân viên' },
+  { id: 'feedbackSection', label: 'Phản hồi dịch vụ' },
+  { id: 'profile', label: 'Thông tin cá nhân' },
+  { id: 'history', label: 'Lịch sử đặt dịch vụ' }
+];
+
+const staffButtons = [
+  { id: 'quanlythucung', label: 'Quản lý thú cưng' },
+  { id: 'quanlychusohuu', label: 'Quản lý chủ sở hữu' },
+  { id: 'quanlydichvu', label: 'Quản lý dịch vụ' }
+];
+
+const customerButtons = [
+  { id: 'thongke', label: 'Thống kê' },
+  { id: 'timkiem', label: 'Tìm kiếm thông tin' },
+  { id: 'feedbackSection', label: 'Phản hồi dịch vụ' },
+  { id: 'quanlydichvu', label: 'Quản lý dịch vụ' },
+    { id: 'profile', label: 'Thông tin cá nhân' },
+    { id: 'history', label: 'Lịch sử đặt dịch vụ' },
+    { id: 'gopy', label: 'Góp ý hệ thống' },
+    { id: 'lienhe', label: 'Liên hệ hỗ trợ' }
+];
+
+const buttonsByRole = {
+  tuychon: tuychonButtons,
+  admin: adminButtons,
+  staff: staffButtons,
+  customer: customerButtons
+};
+
+
+    function renderButtons() {
+      const role = document.getElementById("role").value;
+      const btnContainer = document.getElementById("buttons");
+      btnContainer.innerHTML = "";
+
+      buttonsByRole[role].forEach(func => {
+        const btn = document.createElement("button");
+        btn.textContent = func.label;
+        btn.onclick = () => showContent(func.id);
+        btnContainer.appendChild(btn);
+      });
+
+      document.getElementById("signOutBtn").style.display = "inline-block";
+      document.getElementById("roleSection").style.display = "none";
+      
+      if (role === "admin" || role === "customer") {
+        showContent("thongke");
+      } else if (role === "staff") {
+        showContent("quanlythucung");
+      } else {
+        showContent(null);
+      }
+    }
+
+    function showContent(id) {
+      document.querySelectorAll(".content-box").forEach(box => box.classList.remove("active"));
+      if (id) document.getElementById(`content-${id}`).classList.add("active");
+    }
+
+    function signOut() {
+      window.location.href = 'login.html';
+    }
+
+    function toggleCart() {
+      const popup = document.getElementById("cartPopup");
+      popup.style.display = popup.style.display === "block" ? "none" : "block";
+    }
+
+    
+const servicePrices = {
+  "Tắm gội": 150000,
+  "Tiêm Phòng": 1550000,
+  "Khám sức khỏe": 300000,
+  "Massage": 3000000,
+  "Cắt Lông": 300000,
+  "Dịch vụ sinh sản ": 800000,
+  "Chọn Gói Huấn luyện dog": 8800000,
+  "dọ mõm": 30000,
+  "Thức ăn cho thú cưng": 300000,
+  "Xích": 80000,
+  "Chăm nuôi 1 tháng": 4000000,
+  "Thú cưng": 1000000
+};
+
+let cart = [];
+
+function addToCart(itemName) {
+  cart.push({ name: itemName, price: servicePrices[itemName] || 0 });
+  updateCartDisplay();
+}
+
+function updateCartDisplay() {
+  document.getElementById("cartCount").textContent = cart.length;
+  const cartList = document.getElementById("cartItems");
+  cartList.innerHTML = "";
+  cart.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = `${item.name} - ${item.price.toLocaleString()}đ`;
+    cartList.appendChild(li);
+  });
+}
+
+function checkout() {
+  if (cart.length === 0) {
+    alert("Giỏ hàng đang trống!");
+    return;
+  }
+  
+  document.getElementById("paymentModal").style.display = "flex";
+}
+
+function closePaymentModal() {
+  document.getElementById("paymentModal").style.display = "none";
+}
+
+let currentMethod = "";
+
+function showQR(method) {
+  currentMethod = method;
+  document.getElementById("paymentMethods").style.display = "none";
+  document.getElementById("qrSection").style.display = "block";
+  let img = document.getElementById("qrImg");
+  let note = document.getElementById("qrNote");
+  if (method === "momo") {
+    img.src = "e5073a7b-f19b-4d25-90c5-8e62c6a61288.png"; // Thay bằng link QR thật nếu có
+    note.textContent = "Quét mã Momo để thanh toán";
+  } else if (method === "zalopay") {
+    img.src = "62b2ffdd-02b8-4623-8f68-fd3c8b291d95.png";
+    note.textContent = "Quét mã ZaloPay để thanh toán";
+  } else if (method === "bank") {
+    img.src = "907d4712-8624-4e82-b63c-4478ce8f14fe.png"; // Demo QR chuyển khoản
+    note.textContent = "Quét mã để chuyển khoản ngân hàng";
+  }
+}
+
+function backToMethods() {
+  document.getElementById("paymentMethods").style.display = "block";
+  document.getElementById("qrSection").style.display = "none";
+}
+
+function confirmPayment(method) {
+  let methodName = "";
+  if (method === "momo") methodName = "Momo";
+  else if (method === "zalopay") methodName = "ZaloPay";
+  else if (method === "bank") methodName = "Chuyển khoản ngân hàng";
+  else methodName = method;
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  alert(`Bạn đã chọn thanh toán bằng ${methodName}.\nTổng hóa đơn: ${total.toLocaleString()}đ\nCảm ơn bạn!`);
+  cart = [];
+  updateCartDisplay();
+  closePaymentModal();
+  document.getElementById("cartPopup").style.display = "none";
+  backToMethods();
+}
+
+let currentRating = 0;
+let feedbacks = JSON.parse(localStorage.getItem('feedbacks') || '[]');
+
+function setRating(star) {
+  currentRating = star;
+  const stars = document.querySelectorAll('#starRating span');
+  stars.forEach((s, i) => {
+    s.textContent = i < star ? '★' : '☆';
+    s.className = i < star ? 'selected' : '';
+  });
+}
+
+function submitFeedback() {
+  const service = document.getElementById('serviceSelect').value;
+  const text = document.getElementById('feedbackText').value.trim();
+  if (!service) {
+    alert('Vui lòng chọn dịch vụ!');
+    return;
+  }
+  if (currentRating === 0) {
+    alert('Vui lòng chọn số sao đánh giá!');
+    return;
+  }
+  if (!text) {
+    alert('Vui lòng nhập phản hồi!');
+    return;
+  }
+  feedbacks.push({ service, rating: currentRating, text });
+  localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+  alert('Cảm ơn bạn đã đánh giá!');
+  document.getElementById('serviceSelect').value = '';
+  setRating(0);
+  document.getElementById('feedbackText').value = '';
+  renderFeedbacks();
+}
+
+function renderFeedbacks() {
+  const list = document.getElementById('feedbackList');
+  if (!list) return;
+  if (feedbacks.length === 0) {
+    list.innerHTML = '<i>Chưa có đánh giá nào.</i>';
+    return;
+  }
+  let html = '<h4>Đánh giá gần đây:</h4>';
+  feedbacks.slice(-5).reverse().forEach(fb => {
+    html += `<div style="margin-bottom:10px;padding:8px 12px;background:#f9f9f9;border-radius:6px;">
+      <b>${fb.service}</b> - 
+      <span style="color:#FFD700;">${'★'.repeat(fb.rating)}${'☆'.repeat(5-fb.rating)}</span><br>
+      <span>${fb.text}</span>
+    </div>`;
+  });
+  list.innerHTML = html;
+}
+
+
+window.onload = () => {
+  showContent(null);
+  renderFeedbacks();
+  document.querySelector('#content-timkiem button').onclick = function() {
+    const keyword = document.querySelector('#content-timkiem input').value.trim();
+    if (!keyword) {
+      alert('Vui lòng nhập từ khóa tìm kiếm!');
+      return;
+    }
+    alert('Bạn vừa tìm kiếm: ' + keyword);
+  };
+};
+    
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: url('https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/482746VGL/anh-mo-ta.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .wrapper {
+      background: rgba(255, 255, 255, 0.3);
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    select, button {
+      font-size: 16px;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .functions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .functions button {
+  background: linear-gradient(90deg, #4f8cff 0%, #38d39f 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  margin: 10px 16px;
+  min-width: 180px;
+  padding: 14px 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 12px rgba(79,140,255,0.10);
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.functions button:hover, .functions button:focus {
+  background: linear-gradient(90deg, #38d39f 0%, #4f8cff 100%);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 18px #38d39f33;
+}
+
+.functions button:active {
+  transform: scale(0.98);
+  filter: brightness(0.97);
+}
+
+@media (max-width: 600px) {
+  .functions button {
+    min-width: 120px;
+    font-size: 1rem;
+    padding: 12px 0;
+    margin: 8px 6px;
+  }
+}
+
+    .content {
+      margin-top: 30px;
+      border-top: 1px solid #ccc;
+      padding-top: 20px;
+    }
+
+    .content-box {
+      display: none;
+    }
+
+    .content-box.active {
+      display: block;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f5f5f5;
+    }
+
+    #signOutBtn {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #dc3545 60%, #ff7675 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  display: none;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 2px 10px #dc354555;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  padding: 0;
+}
+
+#signOutBtn:hover {
+  background: linear-gradient(135deg, #c82333 60%, #ff7675 100%);
+  transform: scale(1.08) rotate(-10deg);
+  box-shadow: 0 4px 18px #dc354555;
+}
+
+    .contact-box {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.4);
+      padding: 10px 15px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .contact-box img {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+
+    .contact-box span {
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .cart-box {
+      position: fixed;
+      top: 20px;
+      left: 30px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .cart-box img {
+      width: 40px;
+      height: 40px;
+      filter: drop-shadow(0 0 3px #000);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      left: 30px;
+      background: gold;
+      color: black;
+      font-weight: bold;
+      padding: 3px 6px;
+      border-radius: 50%;
+      font-size: 12px;
+      box-shadow: 0 0 3px rgba(0,0,0,0.4);
+    }
+
+    .cart-popup {
+      position: fixed;
+      top: 70px;
+      left: 30px;
+      width: 250px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      display: none;
+      z-index: 1000;
+    }
+
+    .cart-popup h3 {
+      margin: 0 0 10px;
+    }
+
+    .cart-popup ul {
+      list-style: none;
+      padding: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      margin: 0 0 10px;
+    }
+
+    .cart-popup li {
+      padding: 6px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .cart-popup button {
+      width: 100%;
+      padding: 10px;
+      background: gold;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+   
+#paymentModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+
+#paymentModal > div {
+  background: #fff;
+  border-radius: 10px;
+  padding: 30px 20px;
+  min-width: 300px;
+  text-align: center;
+  box-shadow: 0 0 10px #000;
+}
+
+#paymentModal h3 {
+  margin-bottom: 20px;
+  
+}
+
+#paymentModal button.pay-btn {
+  margin: 10px 8px 0 8px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  outline: none;
+}
+#paymentModal button.momo { background: #a50064; }
+#paymentModal button.momo:hover { background: #d81b60; }
+#paymentModal button.zalopay { background: #0099ff; }
+#paymentModal button.zalopay:hover { background: #00c3ff; }
+#paymentModal button.bank { background: #4caf50; }
+#paymentModal button.bank:hover { background: #388e3c; }
+#paymentModal button.cash { background: #ff9800; }
+#paymentModal button.cash:hover { background: #ffb74d; }
+#paymentModal button.cancel, #paymentModal button.back {
+  background: #888;
+  color: #fff;
+}
+#paymentModal button.cancel:hover, #paymentModal button.back:hover {
+  background: #555;
+}
+#paymentModal button.confirm {
+  background: #007bff;
+}
+#paymentModal button.confirm:hover {
+  background: #0056b3;
+}
+/* Khung đánh giá nổi bật, hiện đại */
+#content-feedbackSection {
+  max-width: 480px;
+  margin: 48px auto 0 auto;
+  background: linear-gradient(135deg, #f8fafc 60%, #e0e7ff 100%);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(56, 83, 165, 0.13), 0 1.5px 8px rgba(56, 211, 159, 0.08);
+  padding: 38px 32px 28px 32px;
+  border: 2.5px solid #e0e7ff;
+  position: relative;
+  overflow: hidden;
+}
+
+#content-feedbackSection::before {
+  content: "⭐";
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-size: 2.2rem;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+#content-feedbackSection h2 {
+  text-align: center;
+  color: #2d5be3;
+  margin-bottom: 18px;
+  margin-top: 0;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 1.6rem;
+  text-shadow: 0 2px 8px #e0e7ff;
+}
+
+#content-feedbackSection label {
+  font-weight: 600;
+  margin-bottom: 7px;
+  display: block;
+  color: #2d5be3;
+  letter-spacing: 0.5px;
+}
+
+#content-feedbackSection select,
+#content-feedbackSection textarea {
+  width: 100%;
+  margin-bottom: 16px;
+  font-size: 16px;
+  border-radius: 9px;
+  border: 1.5px solid #b3b3b3;
+  padding: 12px;
+  transition: border 0.2s, box-shadow 0.2s;
+  background: #f8fafc;
+  box-shadow: 0 1.5px 8px rgba(56, 211, 159, 0.06);
+}
+
+#content-feedbackSection textarea:focus,
+#content-feedbackSection select:focus {
+  border: 1.5px solid #2d5be3;
+  outline: none;
+  background: #f0f7ff;
+  box-shadow: 0 2px 12px #b3d1ff33;
+}
+
+#content-feedbackSection button {
+  background: linear-gradient(90deg, #4f8cff 0%, #38d39f 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 32px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 2px 12px rgba(79,140,255,0.13);
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  cursor: pointer;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  letter-spacing: 1px;
+}
+
+#content-feedbackSection button:hover {
+  background: linear-gradient(90deg, #38d39f 0%, #4f8cff 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 24px rgba(56,211,159,0.18);
+}
+
+/* Đánh giá sao nổi bật */
+#starRating {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px 0 22px 0;
+}
+
+#starRating span {
+  font-size: 2.3rem;
+  color: #c3c3c3;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.1s, background 0.2s;
+  user-select: none;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #f3f6ff;
+  box-shadow: 0 1px 4px #e0e7ff;
+}
+
+#starRating span.selected,
+#starRating span:hover,
+#starRating span:hover ~ span {
+  color: #ffd700;
+  background: #fffbe6;
+  transform: scale(1.18);
+  box-shadow: 0 2px 8px #ffe06644;
+}
+
+/* Danh sách phản hồi */
+#feedbackList > div {
+  border-left: 4px solid #ffd700;
+  background: #fffde7;
+  margin-bottom: 16px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(255,215,0,0.10);
+  font-size: 1.05rem;
+  animation: fadeIn 0.5s;
+}
+
+#feedbackList h4 {
+  color: #007bff;
+  margin-bottom: 12px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.add-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff4d4f 60%, #ff7675 100%);
+  color: #fff;
+  border: none;
+  font-size: 1.6rem;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #ff4d4f33;
+  transition: background 0.18s, transform 0.1s;
+  outline: none;
+  padding: 0;
+}
+.add-btn:hover {
+  background: linear-gradient(135deg, #c82333 60%, #ff7675 100%);
+  transform: scale(1.12) rotate(-10deg);
+}
+.add-btn span {
+  font-size: 1.7rem;
+  font-weight: bold;
+  line-height: 1;
+  display: block;
+  margin-top: -2px;
+}
+
+.stats-cards {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.stat-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #e0e7ff;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 150px;
+  flex: 1 1 150px;
+}
+.stat-icon {
+  font-size: 2.1rem;
+}
+.stat-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2d5be3;
+}
+.stat-label {
+  font-size: 1rem;
+  color: #555;
+}
+  </style>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đăng Nhập - Quản Lý Thú Cưng</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url('https://xoaimedia.com/wp-content/uploads/2021/07/back-view-young-man-with-dog-seaside-scaled.jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .login-container {
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-box {
+      background:rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);   
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      width: 350px;
+      max-width: 95vw;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2); 
+      animation: fadeInDown 0.7s;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    .login-box h2 {
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .login-box input[type="text"],
+    .login-box input[type="password"],
+    .login-box input[type="email"] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    .login-box input[type="text"]:focus,
+    .login-box input[type="password"]:focus,
+    .login-box input[type="email"]:focus {
+      border: 1.5px solid #28a745;
+      background: #f7fff7;
+      outline: none;
+      transition: border 0.2s, background 0.2s;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .login-box button:hover {
+      background-color: #218838;
+    }
+
+    .login-box button:active {
+      background-color: #1e7e34;
+      transform: scale(0.98);
+    }
+
+    .login-box p {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 14px;
+      cursor: pointer;
+    }
+
+    .input-container {
+      position: relative;
+      width: 100%;
+    }
+
+    @media (max-width: 400px) {
+      .login-box {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-box">
+      <img src="https://tapdedep.vn/wp-content/uploads/2022/10/logo-am-ban-in-ao-dong-phuc-2.jpg" alt="Logo" style="width:60px;margin-bottom:12px;">
+      <h2>Đăng Nhập</h2>
+      <form id="loginForm">
+        <input type="text" placeholder="👤 Tên đăng nhập" required>
+        <div class="input-container">
+          <input id="passwordInput" type="password" placeholder="🔒 Mật khẩu" required>
+          <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        </div>
+        <button type="button" onclick="login()">Đăng Nhập</button>
+        <div id="loginError" style="color:#dc3545; margin-top:10px; min-height:22px;"></div>
+      </form>
+
+      
+      <form id="registerForm" style="display:none;">
+        <input type="text" placeholder="Tên đăng nhập mới" required>
+        <input type="password" placeholder="Mật khẩu mới" required>
+        <input type="password" placeholder="Nhập lại mật khẩu" required>
+        <button type="button" onclick="register()">Tạo tài khoản</button>
+        <button type="button" onclick="showLogin()" style="margin-top:10px;background:#6c757d;">Quay lại đăng nhập</button>
+      </form>
+
+  
+      <form id="forgotForm" style="display:none;">
+        <input type="email" placeholder="Nhập email của bạn" required>
+        <button type="button" onclick="sendReset()">Gửi yêu cầu lấy lại mật khẩu</button>
+        <button type="button" onclick="showLogin()" style="margin-top:10px;background:#6c757d;">Quay lại đăng nhập</button>
+      </form>
+
+      <p>Chào mừng bạn đến với hệ thống quản lý thú cưng 🐶🐱</p>
+      <div class="extra-links">
+        <a href="#" onclick="showForgot()">Quên mật khẩu?</a> |
+        <a href="#" onclick="showRegister()">Tạo tài khoản</a>
+      </div>
+    </div>
+  </div>
+  <script>
+        function login() {
+  const username = document.querySelector('#loginForm input[type="text"]').value;
+  const password = document.querySelector('#loginForm input[type="password"]').value;
+  const errorDiv = document.getElementById('loginError');
+  errorDiv.textContent = "";
+  const btn = document.querySelector('#loginForm button');
+  btn.disabled = true;
+  btn.textContent = "Đang kiểm tra...";
+  setTimeout(() => {
+    if (username === "admin" && password === "123") {
+      window.location.href = 'quanly.html';
+    } else {
+      errorDiv.textContent = "Tên đăng nhập hoặc mật khẩu sai!";
+      btn.disabled = false;
+      btn.textContent = "Đăng Nhập";
+    }
+  }, 800);
+}
+        function showForgot() {
+          document.getElementById('loginForm').style.display = 'none';
+          document.getElementById('registerForm').style.display = 'none';
+          document.getElementById('forgotForm').style.display = 'block';
+        }
+        function forgotPassword() {
+          alert('Chức năng này đang được cập nhật...');
+        }
+        function showRegister() {
+          document.getElementById('loginForm').style.display = 'none';
+          document.getElementById('forgotForm').style.display = 'none';
+          document.getElementById('registerForm').style.display = 'block';
+        }
+        function showLogin() {
+          document.getElementById('registerForm').style.display = 'none';
+          document.getElementById('forgotForm').style.display = 'none';
+          document.getElementById('loginForm').style.display = 'block';
+        }
+        function register() {
+          alert('Chức năng tạo tài khoản chưa khả dụng.');
+        }
+        function sendReset() {
+          alert('Yêu cầu lấy lại mật khẩu đã được gửi.');
+          showLogin();
+        }
+        function togglePassword() {
+          const input = document.getElementById('passwordInput');
+          input.type = input.type === 'password' ? 'text' : 'password';
+        }
+      </script>
+</body>
+</html>
