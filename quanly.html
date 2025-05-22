@@ -132,13 +132,13 @@
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon">💰</div>
-            <div>
-              <div class="stat-number">120</div>
-              <div class="stat-label">Đơn hàng tháng này</div>
-            </div>
-          </div>
-          <div class="stat-card">
+    <div class="stat-icon">💰</div>
+    <div>
+      <div class="stat-number">120</div>
+      <div class="stat-label">Đơn hàng tháng này</div>
+    </div>
+  </div>
+  <div class="stat-card">
     <div class="stat-icon">⭐</div>
     <div>
       <div class="stat-number">4.5/5</div>
@@ -151,10 +151,16 @@
       </div>
 
       <div id="content-timkiem" class="content-box">
-        <h2>Tìm kiếm thông tin</h2>
-        <input type="text" placeholder="Nhập từ khóa..." style="padding: 8px; width: 60%;">
-        <button>Tìm kiếm</button>
-      </div>
+  <h2>Tìm kiếm thông tin</h2>
+  <input type="text" id="searchInput" placeholder="Nhập tên thú cưng, chủ sở hữu, dịch vụ hoặc số điện thoại..." style="padding: 8px; width: 60%;">
+  <button id="searchBtn" onclick="searchInfo()" title="Tìm kiếm">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <circle cx="11" cy="11" r="7" stroke="#fff" stroke-width="2"/>
+    <line x1="16.2" y1="16.2" x2="21" y2="21" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+  <div id="searchResults" style="margin-top:18px;"></div>
+</div>
 
       <div id="content-quanlytaikhoan" class="content-box">
         <h2>Quản lý tài khoản nhân viên</h2>
@@ -397,13 +403,13 @@ function showQR(method) {
   let img = document.getElementById("qrImg");
   let note = document.getElementById("qrNote");
   if (method === "momo") {
-    img.src = "e5073a7b-f19b-4d25-90c5-8e62c6a61288.png"; // Thay bằng link QR thật nếu có
+    img.src = "e5073a7b-f19b-4d25-90c5-8e62c6a61288.png"; 
     note.textContent = "Quét mã Momo để thanh toán";
   } else if (method === "zalopay") {
     img.src = "62b2ffdd-02b8-4623-8f68-fd3c8b291d95.png";
     note.textContent = "Quét mã ZaloPay để thanh toán";
   } else if (method === "bank") {
-    img.src = "907d4712-8624-4e82-b63c-4478ce8f14fe.png"; // Demo QR chuyển khoản
+    img.src = "907d4712-8624-4e82-b63c-4478ce8f14fe.png"; 
     note.textContent = "Quét mã để chuyển khoản ngân hàng";
   }
 }
@@ -495,53 +501,163 @@ window.onload = () => {
     alert('Bạn vừa tìm kiếm: ' + keyword);
   };
 };
+
+function searchInfo() {
+  const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+  const resultsDiv = document.getElementById('searchResults');
+  if (!keyword) {
+    resultsDiv.innerHTML = '<i>Vui lòng nhập từ khóa tìm kiếm!</i>';
+    return;
+  }
+
+  
+  const pets = [
+    { name: 'Tom', type: 'Mèo', owner: 'Lê Anh Nuôi' },
+    { name: 'Ben', type: 'Chó', owner: 'Lê Thị Bồng' },
+    { name: 'ViruSs', type: 'Chó', owner: 'Nguyễn Văn lậu' },
+    { name: 'Mèo catel', type: 'Mèo', owner: 'Lê Tuyết Như' },
+    { name: 'Chó Bigbull', type: 'Chó', owner: 'Bùi Ba Năm' },
+    { name: 'Mèo Rừng Châu Phi', type: 'Mèo', owner: 'Lê Anh Nuôi' },
+    { name: 'Báo Đốm Châu Phi', type: 'Mèo Size L', owner: 'Nguyễn Philip' }
+  ];
+  const owners = [
+    { name: 'Nguyễn Văn lậu', phone: '0123456789' },
+    { name: 'Lê Thị Bồng', phone: '0987654321' },
+    { name: 'Lê Tuyết Như', phone: '0987654321' },
+    { name: 'Bùi Ba Năm', phone: '0934232413' },
+    { name: 'Lê Anh Nuôi', phone: '0314153453' },
+    { name: 'Lê Như Ngọc', phone: '0365572342' },
+    { name: 'Nguyễn Philip', phone: '0983453213' }
+  ];
+  const services = [
+    'Tắm gội', 'Tiêm Phòng', 'Khám sức khỏe', 'Massage', 'Cắt Lông',
+    'Dịch vụ sinh sản ', 'Chọn Gói Huấn luyện dog', 'dọ mõm',
+    'Thức ăn cho thú cưng', 'Xích', 'Chăm nuôi 1 tháng', 'Thú cưng'
+  ];
+
+  let found = false;
+  let html = '';
+
+  
+  const petResults = pets.filter(p =>
+    p.name.toLowerCase().includes(keyword) ||
+    p.type.toLowerCase().includes(keyword) ||
+    p.owner.toLowerCase().includes(keyword)
+  );
+  if (petResults.length) {
+    found = true;
+    html += `<b>Kết quả thú cưng:</b><ul>`;
+    petResults.forEach(p => {
+      html += `<li>${p.name} (${p.type}) - Chủ: ${p.owner}</li>`;
+    });
+    html += `</ul>`;
+  }
+
+ 
+  const ownerResults = owners.filter(o =>
+    o.name.toLowerCase().includes(keyword) ||
+    o.phone.includes(keyword)
+  );
+  if (ownerResults.length) {
+    found = true;
+    html += `<b>Kết quả chủ sở hữu:</b><ul>`;
+    ownerResults.forEach(o => {
+      html += `<li>${o.name} - SĐT: ${o.phone}</li>`;
+    });
+    html += `</ul>`;
+  }
+
+ 
+  const serviceResults = services.filter(s =>
+    s.toLowerCase().includes(keyword)
+  );
+  if (serviceResults.length) {
+    found = true;
+    html += `<b>Kết quả dịch vụ:</b><ul>`;
+    serviceResults.forEach(s => {
+      html += `<li>${s}</li>`;
+    });
+    html += `</ul>`;
+  }
+
+  if (!found) {
+    html = '<i>Không tìm thấy kết quả phù hợp.</i>';
+  }
+
+  resultsDiv.innerHTML = html;
+}
     
   </script>
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: url('https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/482746VGL/anh-mo-ta.png') no-repeat center center fixed;
-      background-size: cover;
-    }
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  background: url('https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/482746VGL/anh-mo-ta.png') no-repeat center center fixed;
+  background-size: cover;
+}
 
-    .wrapper {
-      background: rgba(255, 255, 255, 0.3);
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
+.wrapper {
+  background: rgba(255, 255, 255, 0.35);
+  max-width: 1050px;
+  margin: 40px auto;
+  padding: 36px 28px 28px 28px;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(56, 83, 165, 0.13), 0 1.5px 8px rgba(56, 211, 159, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+}
 
-    h1, h2 {
-      text-align: center;
-      color: #333;
-    }
+h1 {
+  text-align: center;
+  color: #2d5be3;
+  font-size: 2.2rem;
+  letter-spacing: 1.5px;
+  margin-bottom: 18px;
+  text-shadow: 0 2px 12px #e0e7ff;
+}
+h2 {
+  text-align: center;
+  color: #38d39f;
+  font-size: 1.4rem;
+  margin-bottom: 18px;
+  margin-top: 0;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #e0e7ff;
+}
 
-    select, button {
-      font-size: 16px;
-      padding: 10px;
-      margin: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
+select, button, input[type="text"], input[type="number"], input[type="email"], textarea {
+  font-size: 16px;
+  padding: 10px 14px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1.5px solid #b3b3b3;
+  background: #f8fafc;
+  transition: border 0.2s, box-shadow 0.2s;
+  outline: none;
+}
 
-    .functions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+select:focus, input:focus, textarea:focus {
+  border: 1.5px solid #38d39f;
+  background: #f0f7ff;
+  box-shadow: 0 2px 12px #b3d1ff33;
+}
 
-    .functions button {
+.functions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.functions button {
   background: linear-gradient(90deg, #4f8cff 0%, #38d39f 100%);
   color: #fff;
   border: none;
-  border-radius: 12px;
-  margin: 10px 16px;
-  min-width: 180px;
+  border-radius: 14px;
+  margin: 10px 10px;
+  min-width: 170px;
   padding: 14px 0;
   font-size: 1.08rem;
   font-weight: 600;
@@ -904,7 +1020,7 @@ window.onload = () => {
   box-shadow: 0 2px 8px #ffe06644;
 }
 
-/* Danh sách phản hồi */
+
 #feedbackList > div {
   border-left: 4px solid #ffd700;
   background: #fffde7;
@@ -984,6 +1100,32 @@ window.onload = () => {
 .stat-label {
   font-size: 1rem;
   color: #555;
+}
+
+#searchBtn {
+  background: linear-gradient(90deg, #4f8cff 0%, #38d39f 100%);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  margin-left: 12px;
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(79,140,255,0.13);
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+  outline: none;
+  padding: 0;
+}
+#searchBtn:hover, #searchBtn:focus {
+  background: linear-gradient(90deg, #38d39f 0%, #4f8cff 100%);
+  transform: scale(1.08) rotate(-8deg);
+  box-shadow: 0 4px 18px #38d39f33;
+}
+#searchBtn svg {
+  display: block;
 }
   </style>
 </body>
